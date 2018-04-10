@@ -1,34 +1,36 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Team from './Team.js';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Teams } from '../api/teams.js';
+import Tracker from './Tracker.js';
+import Admin from './Admin.js';
+import About from './About.js';
 
 export default class App extends Component {
-  getTeams() {
-    return [
-      { _id: 1, name: 'This is team 1' },
-      { _id: 2, name: 'This is team 2' },
-      { _id: 3, name: 'This is team 3' },
+    render() {
+        return (
+            <Router>
+                <div>
+                    <ul>
+                        <li>
+                            <Link to="/">Tracker</Link>
+                        </li>
+                        <li>
+                            <Link to="/admin">Administration</Link>
+                        </li>
+                        <li>
+                            <Link to="/about">About</Link>
+                        </li>
+                    </ul>
 
-    ];
-  }
+                    <hr />
 
-  renderTeams() {
-    return this.getTeams().map((team) => (
-      <Team key={team._id} team={team} />
-    ));
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <header>
-          <h1>Teams</h1>
-        </header>
- 
-        <ul>
-          {this.renderTeams()}
-        </ul>
-      </div>
-    );
-  }
+                    <Route exact path="/" component={Tracker} />
+                    <Route path="/admin" component={Admin} />
+                    <Route path="/about" component={About} />
+                </div>
+            </Router>
+        );
+    }
 }
-
