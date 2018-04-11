@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import Team from './Team.js';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Teams } from '../api/teams.js';
+import { Store } from '../api/store.js';
 
-class About extends Component {
-
-    renderTeams() {
-        return this.props.teams.map((team) => (
-            <Team key={team._id} team={team} />
-        ));
-    }
+export default class About extends Component {
 
     render() {
         return (
@@ -17,17 +11,12 @@ class About extends Component {
                 <header className="header">
                     <h1 className="header__title">About</h1>
                 </header>
-                <div className="team-list">
-                    {this.renderTeams()}
-                </div>
+                <p>Der Team-Tracker wurde ..</p>
+               <image src=""/>
             </div>
         );
     }
 }
 
-export default withTracker(() => {
-    return {
-        teams: Teams.find({}).fetch(),
-    };
-})(About);
+
 

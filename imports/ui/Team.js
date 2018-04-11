@@ -10,6 +10,7 @@ export default class Team extends Component {
           {this.props.team.name}
         </div>
         <div className="team_description">
+          {this.props.team.description}
         </div>
         <div className="team_score">
           {this.props.team.score}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Team from './Team.js';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Teams } from '../api/teams.js';
+import { Store } from '../api/store.js';
 
 class Tracker extends Component {
 
@@ -27,7 +27,7 @@ class Tracker extends Component {
 
 export default withTracker(() => {
     return {
-        teams: Teams.find({}).fetch(),
+        teams: Store.find({}).fetch(),
     };
 })(Tracker);
 
