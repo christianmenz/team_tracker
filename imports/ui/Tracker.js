@@ -5,10 +5,45 @@ import { Store } from '../api/store.js';
 
 class Tracker extends Component {
 
-    renderTeams() {
-        return this.props.teams.map((team) => (
-            <Team key={team._id} team={team} />
-        ));
+    calculatePoints(team) {
+        return team.results.map((result, index) => {
+            if (result) {
+                return this.props.store.challenges[index].points
+            } else {
+                return 0;
+            }
+        }).reduce((accumulator, currentValue) => { return accumulator + currentValue});
+    }
+
+    renderResults() {
+        if (this.props.store) {
+            return <table className="results-edit-table">
+                <tbody>
+                    <tr>
+                        <td></td>
+                        {this.props.store.challenges.map((challenge) => {
+                            return <td>{challenge.name}</td>
+                        })}
+                        <td>Points</td>
+                    </tr>
+                    {this.props.store.teams.map((team) => {
+                        return <tr>
+                            <td>{team.name}</td>
+                            {team.results.map((result, index) => {
+                                return <td>
+                                    <input type="checkbox" checked={result} readOnly ></input>
+                                </td>
+                            })}
+                            <td>
+                                {this.calculatePoints(team)}
+                            </td>
+                        </tr>
+                    })}
+                </tbody>
+            </table>
+        } else {
+            return 'Loading results...';
+        }
     }
 
     render() {
@@ -17,8 +52,8 @@ class Tracker extends Component {
                 <header className="header">
                     <h1 className="header__title">Team Tracker</h1>
                 </header>
-                <div className="team-list">
-                    {this.renderTeams()}
+                <div className="results">
+                    {this.renderResults()}
                 </div>
             </div>
         );
@@ -27,7 +62,7 @@ class Tracker extends Component {
 
 export default withTracker(() => {
     return {
-        teams: Store.find({}).fetch(),
+        store: Store.findOne({})
     };
 })(Tracker);
 
