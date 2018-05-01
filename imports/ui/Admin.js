@@ -16,11 +16,20 @@ class Admin extends Component {
         
     }
 
+    updateChallenge(challenge) {        
+        Store.update({ _id: this.props.store._id }, { $set: { challenges: this.props.store.challenges } });
+    }
+
     addTeam() {
         let results = [];
         this.props.store.challenges.map(challenge => results.push(false));
         this.props.store.teams.push({ _id: Random.hexString(10), name: 'new team', description: 'awesome new team', results: results });
         Store.update({ _id: this.props.store._id }, { $set: { teams: this.props.store.teams } })
+    }
+
+
+    updateTeam(team) {
+        Store.update({ _id: this.props.store._id }, { $set: { teams: this.props.store.teams } });
     }
 
     resetStore() {
@@ -31,7 +40,7 @@ class Admin extends Component {
     renderTeamList() {
         if (this.props.store && this.props.store.teams) {
             return this.props.store.teams.map((team) => (
-                <Team key={team._id} team={team} />
+                <Team key={team._id} team={team} onChange={this.updateTeam.bind(this, team)}/>
             ));
         } else {
             return 'Loading teams...';
@@ -41,7 +50,7 @@ class Admin extends Component {
     renderChallenges() {
         if (this.props.store && this.props.store.challenges) {
             return this.props.store.challenges.map((challenge) => (
-                <Challenge key={challenge._id} challenge={challenge} />
+                <Challenge key={challenge._id} challenge={challenge} onChange={this.updateChallenge.bind(this, challenge)} />
             ));
         } else {
             return 'Loading challenges...';
