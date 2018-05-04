@@ -2,28 +2,29 @@ import React, { Component } from 'react';
 import { Random } from 'meteor/random';
 import Team from './Team.js';
 import Challenge from './Challenge.js';
+import AddTeam from './AddTeam.js';
+import AddChallenge from './AddChallenge.js';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Store } from '../api/store.js';
 
 class Admin extends Component {
 
-    addChallenge() {
-        this.props.store.challenges.push({ _id: Random.hexString(10), name: 'new challenge', description: 'awesome new challenge', points: 1 });
+    addChallenge(challenge) {
+        this.props.store.challenges.push({ _id: Random.hexString(10), name: challenge.name, description: challenge.desc, points: challenge.points });
         this.props.store.teams.forEach(team => { // add the new challenge to each existing team
             team.results.push(false);
         });
-        Store.update({ _id: this.props.store._id }, { $set: { challenges: this.props.store.challenges, teams: this.props.store.teams } });
-        
+        Store.update({ _id: this.props.store._id }, { $set: { challenges: this.props.store.challenges, teams: this.props.store.teams } });   
     }
 
     updateChallenge(challenge) {        
         Store.update({ _id: this.props.store._id }, { $set: { challenges: this.props.store.challenges } });
     }
 
-    addTeam() {
+    addTeam(team) {
         let results = [];
         this.props.store.challenges.map(challenge => results.push(false));
-        this.props.store.teams.push({ _id: Random.hexString(10), name: 'new team', description: 'awesome new team', results: results });
+        this.props.store.teams.push({ _id: Random.hexString(10), name: team.name, description: team.desc, results: results });
         Store.update({ _id: this.props.store._id }, { $set: { teams: this.props.store.teams } })
     }
 
@@ -94,17 +95,19 @@ class Admin extends Component {
             <div className="container">
                 <header className="header">
                     <h1 className="header__title">Administration</h1>
-                    <div className="header__buttons">
-                        <button onClick={this.addTeam.bind(this)}>Add Team</button>
-                        <button onClick={this.addChallenge.bind(this)}>Add Challenge</button>
-                        <button onClick={this.resetStore.bind(this)}>Reset Database</button>
-                    </div>
                 </header>
+								
+				<div>
+					<AddTeam onAddTeam={this.addTeam.bind(this)} />
+					<AddChallenge onAddChallenge={this.addChallenge.bind(this)} />
+				</div>
+				
+				<br />
+				<h3>Edit</h3>
+				
                 <div className="team-list">
                     {this.renderTeamList()}
                 </div>
-
-                <hr></hr>
 
                 <div className="challenge-list">
                     {this.renderChallenges()}
@@ -115,6 +118,7 @@ class Admin extends Component {
                 <div className="results">
                     {this.renderResults()}
                 </div>
+				<button onClick={this.resetStore.bind(this)}>Reset Database</button>
 
             </div>
         );

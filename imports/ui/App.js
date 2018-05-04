@@ -11,18 +11,17 @@ export default class App extends Component {
         return (
             <Router>
                 <div>
-                    <ul>
+                    <ul class="nav">
                         <li>
-                            <Link to="/">Tracker</Link>
+                            <Link to="/" class="nav__elem">Tracker</Link>
                         </li>
                         <li>
-                            <Link to="/admin">Administration</Link>
+                            <Link to="/admin" class="nav__elem">Administration</Link>
                         </li>
                         <li>
-                            <Link to="/about">About</Link>
+                            <Link to="/about" class="nav__elem">About</Link>
                         </li>
                     </ul>
-                    <hr />
                     <Route exact path="/" component={Tracker} />
                     <Route path="/admin" component={Admin} />
                     <Route path="/about" component={About} />
