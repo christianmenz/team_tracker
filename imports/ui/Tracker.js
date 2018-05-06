@@ -12,7 +12,7 @@ class Tracker extends Component {
             } else {
                 return 0;
             }
-        }).reduce((accumulator, currentValue) => { return accumulator + currentValue});
+        }).reduce((accumulator, currentValue) => { return accumulator + currentValue });
     }
 
     renderResults() {
@@ -30,9 +30,12 @@ class Tracker extends Component {
                         return <tr>
                             <td>{team.name}</td>
                             {team.results.map((result, index) => {
-                                return <td>
-                                    <input type="checkbox" checked={result} readOnly ></input>
-                                </td>
+                                if (result) {
+                                    return <td><i className="icon fa fa-star" style={{color:'gold'}}/></td>
+                                } else {
+                                    return <td/>
+                                }
+                                
                             })}
                             <td>
                                 {this.calculatePoints(team)}
