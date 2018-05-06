@@ -58,6 +58,10 @@ label {
 	border-collapse: collapse;
 }
 
+.results-edit-table th {
+	padding: 20px;
+}
+
 tr:nth-child(1),
 tr:nth-child(1):hover {
 	background-color: transparent;

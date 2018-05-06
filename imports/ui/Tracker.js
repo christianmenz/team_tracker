@@ -20,11 +20,11 @@ class Tracker extends Component {
             return <table className="results-edit-table">
                 <tbody>
                     <tr>
-                        <td></td>
+                        <th></th>
                         {this.props.store.challenges.map((challenge) => {
-                            return <td>{challenge.name}</td>
+                            return <th>{challenge.name}</th>
                         })}
-                        <td>Points</td>
+                        <th>Punkte</th>
                     </tr>
                     {this.props.store.teams.map((team) => {
                         return <tr>
